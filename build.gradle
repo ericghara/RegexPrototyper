@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.ericghara'
+version = '0.0.1'
+mainClassName =  "org.ericghara.RegexPrototyper"
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class' : mainClassName, // jar entry point
+                'Class-Path' : configurations.runtimeClasspath.files.collect {'lib/' + it.getName()}.join(' ') // specifies libraries are stored in lib/ folder
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+run {
+    standardInput = System.in
+}
