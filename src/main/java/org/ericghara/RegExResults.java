@@ -2,6 +2,7 @@ package org.ericghara;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -12,6 +13,8 @@ public class RegExResults {
     private final int[] lineDataKey;
 
     public RegExResults(TextFile file, String regEx) {
+        Objects.requireNonNull(file, "Received a null file");
+        Objects.requireNonNull(regEx, "Received a null regEx");
         matches = new ArrayList<>();
         lineDataKey = new int[file.getNumLines()+1];
         doMatching(regEx, file);
@@ -59,9 +62,9 @@ public class RegExResults {
     public List<LineNumberedMatchResult> getResultsFor(int lineNum) {
         int start = lineDataKey[lineNum];
         int stop = lineDataKey[lineNum+1];
-        var list = new ArrayList<LineNumberedMatchResult>(start-stop);
+        var list = new ArrayList<LineNumberedMatchResult>(stop-start);
         for (int i = start; i < stop; i++) {
-            list.add(matches.get(lineDataKey[i]) );
+            list.add(matches.get(i) );
         }
         return list;
     }

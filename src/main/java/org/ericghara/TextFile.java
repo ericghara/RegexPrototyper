@@ -37,8 +37,8 @@ public class TextFile implements Iterable<String> {
         File file = new File(filePath);
         List<String> lines = new ArrayList<>();
         try (var scanner = new Scanner(file) ) {
-            while (scanner.hasNextLine()) {
-                lines.add(scanner.nextLine());
+            while (scanner.hasNextLine() ) {
+                lines.add(scanner.nextLine() );
             }
         } catch (Exception e) {
             throw new RuntimeException("Error while reading in the file");
@@ -57,11 +57,11 @@ public class TextFile implements Iterable<String> {
 
     @Override
     public void forEach(Consumer<? super String> action) {
-        Iterable.super.forEach(action);
+        lines.forEach(action);
     }
 
     @Override
     public Spliterator<String> spliterator() {
-        return Iterable.super.spliterator();
+        return lines.spliterator();
     }
 }
