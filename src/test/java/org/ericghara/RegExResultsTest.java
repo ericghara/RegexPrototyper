@@ -56,9 +56,11 @@ class RegExResultsTest {
 
     @Test
     void getResultsFor() {
-        Function<Integer,String[]> stringResults = (i) -> results.getResultsFor(i)
-                                                            .stream().map(LineNumberedMatchResult::group)
-                                                            .toArray(String[]::new);
+        Function<Integer,String[]> stringResults = (i) ->
+                results.getResultsFor(i)
+                       .stream()
+                       .map(LineNumberedMatchResult::group)
+                       .toArray(String[]::new);
         var lineA = 0;
         Assertions.assertArrayEquals(text.get(lineA).split(""), stringResults.apply(lineA) );
         var lineB = 1;
