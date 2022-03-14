@@ -48,10 +48,14 @@ class RegExResultsTest {
 
     @Test
     void getNumMatchesOn() {
-        Assertions.assertEquals(5, results.getNumMatchesOn(0) );
-        Assertions.assertEquals(0, results.getNumMatchesOn(1) );
-        Assertions.assertEquals(0, results.getNumMatchesOn(2) );
-        Assertions.assertEquals( 3, results.getNumMatchesOn(3));
+        Assertions.assertEquals(5,
+                results.getNumMatchesOn(0) );
+        Assertions.assertEquals(0,
+                results.getNumMatchesOn(1) );
+        Assertions.assertEquals(0,
+                results.getNumMatchesOn(2) );
+        Assertions.assertEquals(3,
+                results.getNumMatchesOn(3) );
     }
 
     @Test
@@ -62,10 +66,13 @@ class RegExResultsTest {
                        .map(LineNumberedMatchResult::group)
                        .toArray(String[]::new);
         var lineA = 0;
-        Assertions.assertArrayEquals(text.get(lineA).split(""), stringResults.apply(lineA) );
+        Assertions.assertArrayEquals(text.get(lineA).split(""),
+                stringResults.apply(lineA) );
         var lineB = 1;
-        Assertions.assertArrayEquals(new String[0], stringResults.apply(lineB) );
+        Assertions.assertArrayEquals(new String[0],
+                stringResults.apply(lineB) );
         var lineC = 3;
-        Assertions.assertArrayEquals(text.get(lineC).split(" "), stringResults.apply(lineC) );
+        Assertions.assertArrayEquals(text.get(lineC).split(" "),
+                stringResults.apply(lineC) );
     }
 }
