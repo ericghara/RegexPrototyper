@@ -25,7 +25,7 @@ class RegExResultsTest {
         TextFile file = mock(TextFile.class);
         when(file.iterator() ).thenReturn(text.iterator() );
         when(file.getNumLines() ).thenReturn(text.size() );
-        results = new RegExResults(file, "a");
+        results = new RegExResults(file, query);
     }
 
     @Test
