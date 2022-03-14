@@ -10,16 +10,14 @@ public class RegExResults {
     private int matchLines;
     private final List<LineNumberedMatchResult> matches;
     private final int[] lineDataKey;
-    private final TextFile file;
 
     public RegExResults(TextFile file, String regEx) {
-        this.file = file;
         matches = new ArrayList<>();
         lineDataKey = new int[file.getNumLines()+1];
-        doMatching(regEx);
+        doMatching(regEx, file);
     }
 
-    void doMatching(String regex) {
+    void doMatching(String regex, TextFile file) {
         int n = 0;
         var matcher = Pattern.compile(regex)
                                       .matcher("");
@@ -29,7 +27,7 @@ public class RegExResults {
             int lineMatches =
                     (int) matcher.results()
                                  .peek((r) ->
-                                         matches.add(new LineNumberedMatchResult(r, finN)))
+                                         matches.add(new LineNumberedMatchResult(r, finN) ) )
                                  .count();
             lineDataKey[n + 1] = lineDataKey[n++] + lineMatches;
             if (lineMatches > 0) {
@@ -40,10 +38,6 @@ public class RegExResults {
 
     public int getNumLinesParsed() {
         return lineDataKey.length-1;
-    }
-
-    public TextFile getFullText() {
-        return file;
     }
 
     public int getNumMatches() {
