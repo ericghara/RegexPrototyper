@@ -10,6 +10,8 @@ public class RegExResults {
 
     private int matchLines;
     private final List<LineNumberedMatchResult> matches;
+    // holds cumulative # of matches on i = line + 1;
+    // lineDataKey[0]  = 0, lineDataKey[TextFile::getNumLines] = # of matches;
     private final int[] lineDataKey;
 
     public RegExResults(TextFile file, String regEx) {

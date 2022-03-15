@@ -3,6 +3,8 @@ package org.ericghara;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import static java.lang.String.format;
 
@@ -22,7 +24,7 @@ public class RegexPrototyper {
 
     private static void defaultPrintFormat(LineNumberedMatchResult match) {
         var index = String.format("%d:%d-%d:", match.lineNumber(), match.start(), match.end() );
-        System.out.printf("%-15s%s%n", index, match.group() );
+        System.out.printf("%-15s[%s]%n", index, match.group() );
     }
 
     public void printMatches(RegExResults results) {
@@ -31,18 +33,18 @@ public class RegexPrototyper {
         long uniqueLines = results.getNumLinesWithMatch();
         results.stream()
                .forEach(matchPrinter);
-        System.out.printf("%n Found %d matches. %d of %d lines contained a match.%n",
+        System.out.printf("%nFound %d matches. %d of %d lines contained a match.%n%n",
                 numMatches, uniqueLines, file.getNumLines() );
     }
 
     public void printStartupMessage() {
         var filePath = file.getPath();
         var numLines = file.getNumLines();
-        var startMessage = List.of("Welcome to Regex Prototyper!",
-                format("You are currently matching %s with %d lines read in", filePath, numLines),
-                "Enter regular expressions (including escapes!) just as you would in java code.",
-                "The only preprocessing is trailing whitespace removal",
-                "Press CTRL + D or CTRL + Z to exit");
+        var startMessage = List.of("\nWelcome to Regex Prototyper!\n",
+                "*Enter regular expressions (including escapes!) just as you would in java code.",
+                "*The only preprocessing is trailing whitespace removal",
+                "*Press CTRL + D or CTRL + Z to exit\n",
+                format("Currently matching %s with %d lines read in.\n", filePath, numLines) );
         startMessage.forEach(System.out::println);
     }
 
@@ -51,10 +53,17 @@ public class RegexPrototyper {
         System.out.print("Enter Regex: ");
         while(in.hasNextLine() ) {
             var query = in .nextLine();
-            System.out.printf("%nRegular Expression: %s%n", query);
-            var results = new RegExResults(file, query);
-            printMatches(results);
-            System.out.print("Enter Regex: ");
+            RegExResults results;
+            try {
+                results = new RegExResults(file, query);
+                System.out.printf("%nRegex: %s%n%n", query);
+                printMatches(results);
+            } catch (PatternSyntaxException e) {
+                System.out.printf("%nBad Pattern: %s%n", query);
+
+            } finally {
+                System.out.print("Enter Regex: ");
+            }
         }
         in.close();
     }
